@@ -9,6 +9,12 @@ public class SortUtil {
         a[j] = t;
     }
 
+    /**
+     * return a < b
+     * @param a
+     * @param b
+     * @return a < b
+     */
     public static boolean less(Comparable a, Comparable b) {
         return a.compareTo(b) < 0;
     }

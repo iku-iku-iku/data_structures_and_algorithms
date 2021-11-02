@@ -1,5 +1,6 @@
 package com.hayaku.TestUtil;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -23,15 +24,18 @@ public class TimeUtil {
         Object[] clonedArgs = new Object[argsNum];
         for (int i = 0; i < times; i++) {
             for (int j = 0; j < argsNum; j++) {
-                try {
-                    Method clone = args[i].getClass().getMethod("clone");
-                    clonedArgs[i] = clone.invoke(args[i]);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                if (args[j] instanceof Object[]) {
+                    clonedArgs[j] = ((Object[]) args[j]).clone();
+                } else {
+                    try {
+                        clonedArgs[j] = args[j].getClass().getDeclaredMethod("clone").invoke(args[j]);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             total += methodTime(method, obj, clonedArgs);

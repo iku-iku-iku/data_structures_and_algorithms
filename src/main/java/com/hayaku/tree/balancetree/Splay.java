@@ -1,11 +1,13 @@
 package com.hayaku.tree.balancetree;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Splay<T extends Comparable<T>>{
+public class Splay<T extends Comparable<T>> {
 
     private Node<T> root;
+
     public void insert(T value) {
         Node<T> parent = null;
         Node<T> u = root;
@@ -19,17 +21,37 @@ public class Splay<T extends Comparable<T>>{
         }
         splay(u, null); // 转到根
     }
+
     public List<T> inorderTraversal() {
         List<T> list = new ArrayList<>(root.size);
         inorderTraversal(root, list);
         return list;
     }
+
+    public T getKthValue(int k) {
+        if (k > root.size || k <= 0) return null;
+        var p = root;
+        while (true) {
+            int leftSize = 0;
+            if (p.children[0] != null) {
+                leftSize = p.children[0].size;
+            }
+            if (leftSize >= k) p = p.children[0];
+            else if (leftSize + 1 == k) return p.value;
+            else {
+                k -= leftSize + 1;
+                p = p.children[1];
+            }
+        }
+    }
+
     private void inorderTraversal(Node<T> node, List<T> list) {
         if (node == null) return;
         inorderTraversal(node.children[0], list);
         list.add(node.value);
         inorderTraversal(node.children[1], list);
     }
+
     private void splay(Node<T> node, Node<T> targetParent) {
         while (node.parent != targetParent) {
             Node<T> parent = node.parent;
@@ -47,6 +69,7 @@ public class Splay<T extends Comparable<T>>{
             root = node;
         }
     }
+
     private void rotate(Node<T> son) {
         Node<T> parent = son.parent;
         Node<T> grandparent = parent.parent;
@@ -69,6 +92,7 @@ public class Splay<T extends Comparable<T>>{
         pushUp(parent);
         pushUp(son);
     }
+
     // 更新size
     private void pushUp(Node<T> node) {
         node.size = 1;
@@ -77,25 +101,24 @@ public class Splay<T extends Comparable<T>>{
                 node.size += node.children[i].size;
     }
 
-}
+    private static class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+        T value;
+        Node<T> parent;
+        Node<T>[] children;
+        int size;
 
-class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
-    // 本包可见
-    T value;
-    Node<T> parent;
-    Node<T>[] children;
-    int size;
+        @Override
+        public int compareTo(Node<T> o) {
+            return value.compareTo(o.value);
+        }
 
-    @Override
-    public int compareTo(Node<T> o) {
-        return value.compareTo(o.value);
+        public Node(T value, Node<T> parent) {
+            this.value = value;
+            children = new Node[2];
+            this.parent = parent;
+            this.size = 1;
+        }
     }
 
-    public Node(T value, Node<T> parent) {
-        this.value = value;
-        children = new Node[2];
-        this.parent = parent;
-        this.size = 1;
-    }
-
 }
+
