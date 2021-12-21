@@ -11,7 +11,6 @@ public class MinPQ<K extends Comparable<K>> implements PriorityQueue<K>{
         pq = (K[]) new Comparable[size];
     }
 
-    public MinPQ() {}
 
     public MinPQ(K[] arr) {
         this(arr.length + 1);
