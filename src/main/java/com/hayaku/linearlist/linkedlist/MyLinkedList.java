@@ -12,10 +12,12 @@ public class MyLinkedList<T> implements LinearList<T> {
         }
     }
 
+    private int length = 0;
+
     protected Node head = new Node(null, null);
 
     public void push(T val) {
-        head.next = new Node(val, head.next);
+        add(0, val);
     }
 
     @Override
@@ -23,6 +25,7 @@ public class MyLinkedList<T> implements LinearList<T> {
         Node cur = head;
         for (int i = 0; i < idx; i++) cur = cur.next;
         cur.next = new Node(val, cur.next);
+        length++;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class MyLinkedList<T> implements LinearList<T> {
         Node cur = head;
         for (int i = 0; i < idx; i++) cur = cur.next;
         cur.next = cur.next.next;
+        length--;
     }
 
     @Override
@@ -44,5 +48,10 @@ public class MyLinkedList<T> implements LinearList<T> {
         Node cur = head.next;
         for (int i = 0; i < idx; i++) cur = cur.next;
         return cur.data;
+    }
+
+    @Override
+    public int length() {
+        return length;
     }
 }

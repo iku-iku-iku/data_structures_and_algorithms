@@ -23,8 +23,10 @@ public class MergeSort implements Sort {
             if (SortUtil.less(arr[p], arr[q])) tmp[k++] = arr[p++];
             else tmp[k++] = arr[q++];
         }
+        // 拷贝剩余的
         while (p <= mid) tmp[k++] = arr[p++];
         while (q <= right) tmp[k++] = arr[q++];
-        for (int i = left; i < k; i++) arr[i] = tmp[i];
+
+        if (k - left >= 0) System.arraycopy(tmp, left, arr, left, k - left);
     }
 }

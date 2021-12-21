@@ -5,4 +5,5 @@ public interface LinearList<T> {
     void delete(int idx);
     void set(int idx, T val);
     T get(int idx);
+    int length();
 }

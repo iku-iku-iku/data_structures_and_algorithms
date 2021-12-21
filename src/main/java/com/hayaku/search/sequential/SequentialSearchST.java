@@ -55,6 +55,11 @@ public class SequentialSearchST<K, V> extends MyLinkedList<SequentialSearchST.En
 
     @Override
     public int size() {
+        return length();
+    }
+
+    @Override
+    public int length() {
         return size;
     }
 }

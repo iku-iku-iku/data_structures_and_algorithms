@@ -14,7 +14,7 @@ public class MinPQ<K extends Comparable<K>> implements PriorityQueue<K>{
     public MinPQ() {}
 
     public MinPQ(K[] arr) {
-        pq = (K[]) new Comparable[arr.length + 1];
+        this(arr.length + 1);
         for (K comparable : arr) {
             push(comparable);
         }
@@ -35,6 +35,7 @@ public class MinPQ<K extends Comparable<K>> implements PriorityQueue<K>{
 
     private void sink(int k) {
         while (2 * k <= idx) {
+            // 选出孩子中最小的
             int j = 2 * k;
             if (j < idx && SortUtil.less(pq[j + 1], pq[j])) j++;
             if (!SortUtil.less(pq[j], pq[k])) break;
@@ -51,10 +52,10 @@ public class MinPQ<K extends Comparable<K>> implements PriorityQueue<K>{
 
     @Override
     public K pop() {
-        K element = pq[1];
-        pq[1] = pq[idx];
-        pq[idx--] = null;
-        sink(1);
+        K element = pq[1]; // 取第一个
+        pq[1] = pq[idx]; // 用最后一个覆盖第一个
+        pq[idx--] = null; // 弹出最后一个
+        sink(1); // 调整第一个
         return element;
     }
 

@@ -2,7 +2,7 @@ package com.hayaku.base.sort;
 
 import com.hayaku.tree.heap.MinPQ;
 
-public class HeapSort implements Sort{
+public class HeapSort implements Sort {
     @Override
     public void sort(Comparable[] arr) {
         MinPQ pq = new MinPQ(arr);

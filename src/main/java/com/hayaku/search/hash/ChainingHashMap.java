@@ -5,7 +5,7 @@ import com.hayaku.search.sequential.SequentialSearchST;
 
 public class ChainingHashMap<K, V> implements MyHashMap<K, V> {
     private final SequentialSearchST<K, V>[] st;
-    private final int M;
+    private final int M; // M个空位
     private int size;
 
     public ChainingHashMap() {
